@@ -19,7 +19,7 @@ setup(
     py_modules=["makeitseg2", "formats", "header"],             # Name of the python package
     package_dir={'':'makeitseg2/src'},     # Directory of the source code of the package
     install_requires=["obspy"],
-    keywords=['segy', 'seismic', 'seg2', 'segy to seg2 converter', 'segy to dat file converter', 'segy to dat file converter using python' ],
+    keywords=['segy', 'su', 'seismic', 'seg2', 'segy to seg2 converter', 'su to seg2 converter', 'segy to dat file converter', 'su to dat file converter', 'segy to dat file converter using python' ],
     classifiers=[
         "Development Status :: 4 - Beta",
         "Intended Audience :: Education",
