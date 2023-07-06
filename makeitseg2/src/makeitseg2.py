@@ -189,7 +189,7 @@ def convert(filename, newFileName=None, **kwargs):
         path = "Converted_SEG2"
         if not os.path.exists(path):
             os.mkdir(path)
-        newFileName = path+'/'+filename.split('/')[-1][:-4] + "dat"
+        newFileName = path+'/'+filename.split('/')[-1] + ".dat"
     datfile = open(newFileName, 'wb')
     datfile.write(buffer)
     datfile.close()
