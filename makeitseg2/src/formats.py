@@ -143,7 +143,7 @@ class TraceFormat(object):
         self.fh_dict = fh_dict
         self.fname = file
 
-    def format_th(self, k, th_dict, ftype='segy'):
+    def format_th(self, k, th_dict, fdelflag=False, ftype='segy'):
         isSegy = True if ftype=='segy' else False
 
         ak = list(TRACE_HEADER_FORMAT.keys())
@@ -269,9 +269,14 @@ class TraceFormat(object):
 
         elif k == ak[22]:
             # RECEIVER_LOCATION
-            v = f"{th_dict['group_coordinate_x']}"
-            if float(th_dict['group_coordinate_y']) != 0:
-                v += f" {th_dict['group_coordinate_y']}"
+            if fdelflag:
+                v = f"{th_dict['group_coordinate_x']/1000}"
+                if float(th_dict['group_coordinate_y']) != 0:
+                    v += f" {th_dict['group_coordinate_y']/1000}"
+            else:
+                v = f"{th_dict['group_coordinate_x']}"
+                if float(th_dict['group_coordinate_y']) != 0:
+                    v += f" {th_dict['group_coordinate_y']}"
             return v
 
         elif k == ak[23]:
@@ -308,9 +313,14 @@ class TraceFormat(object):
 
         elif k == ak[30]:
             # SOURCE_LOCATION
-            v = f"{th_dict['source_coordinate_x']}"
-            if float(th_dict['source_coordinate_y']) != 0:
-                v += f" {th_dict['source_coordinate_y']}"
+            if fdelflag:
+                v = f"{th_dict['source_coordinate_x']/1000}"
+                if float(th_dict['source_coordinate_y']) != 0:
+                    v += f" {th_dict['source_coordinate_y']/1000}"
+            else:
+                v = f"{th_dict['source_coordinate_x']}"
+                if float(th_dict['source_coordinate_y']) != 0:
+                    v += f" {th_dict['source_coordinate_y']}"
             return v
 
         elif k == ak[31]:
@@ -319,7 +329,10 @@ class TraceFormat(object):
 
         elif k == ak[32]:
             # STACK
-            return f"{th_dict['number_of_horizontally_stacked_traces_yielding_this_trace']}"
+            if int(th_dict['number_of_horizontally_stacked_traces_yielding_this_trace']) != 0:
+                return f"{th_dict['number_of_horizontally_stacked_traces_yielding_this_trace']}"
+            else:
+                return "1"
 
         elif k == ak[33]:
             # STATIC_CORRECTIONS

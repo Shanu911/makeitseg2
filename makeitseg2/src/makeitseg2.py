@@ -4,13 +4,15 @@ from header import BINARY_FILE_HEADER_FORMAT, TRACE_HEADER_FORMAT
 from formats import format_fh, TraceFormat
 import os, datetime
 
-def convert(filename, newFileName=None, **kwargs):
+def convert(filename, newFileName=None, fdelmodc=False, **kwargs):
     """
     filename    : str | segy or su file name with location
     newFileName : str | seg2 file name if not
                 provided new file will be saved 
                 as segy file name with .dat extension
                 in "Converted_SEG2" folder
+    fdelmodc    : bool | True if file is made by fdelmodc software
+                otherwise False. default is False 
     **kwargs : attribute dict contains
 
             DATE_TYPE : int | 1: 16-bit ; 2: 32-bit; 
@@ -92,7 +94,7 @@ def convert(filename, newFileName=None, **kwargs):
     trfmt = TraceFormat(fh_dict=binhead, file=filename)
     th_dict = dict()
     for key in list(TRACE_HEADER_FORMAT.keys()):
-        th_dict.update({key: trfmt.format_th(key, strm[0].stats[ftype].trace_header, ftype=ftype)})
+        th_dict.update({key: trfmt.format_th(key, strm[0].stats[ftype].trace_header, fdelflag=fdelmodc, ftype=ftype)})
 
     #String Block of FBD
     st = '\x00'  # string terminetor
@@ -155,7 +157,7 @@ def convert(filename, newFileName=None, **kwargs):
         trfmt = TraceFormat(fh_dict=binhead, file=filename)
         th_dict = dict()
         for key in list(TRACE_HEADER_FORMAT.keys()):
-            th_dict.update({key: trfmt.format_th(key, strm[i].stats[ftype].trace_header, ftype=ftype)})
+            th_dict.update({key: trfmt.format_th(key, strm[i].stats[ftype].trace_header, fdelflag=fdelmodc, ftype=ftype)})
 
         str = ''
         for k in list(th_dict.keys()):
